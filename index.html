@@ -38,15 +38,16 @@
 
   /* ---------- Header ---------- */
   .topbar {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
-    color: #fff;
+    background: #fff;
+    color: var(--text);
     padding: 18px 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
-    box-shadow: 0 2px 12px rgba(14,34,64,.18);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(14,34,64,.06);
     position: sticky;
     top: 0;
     z-index: 50;
@@ -66,9 +67,10 @@
   .brand-text { min-width: 0; }
   .brand-text h1 {
     font-size: 17px; margin: 0; font-weight: 700; letter-spacing: -0.01em;
+    color: var(--navy);
   }
   .brand-text p {
-    font-size: 12px; margin: 2px 0 0; color: #B6C2D9; font-weight: 500;
+    font-size: 12px; margin: 2px 0 0; color: var(--muted); font-weight: 500;
   }
   .topbar-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   @media (max-width: 880px) {
@@ -110,9 +112,9 @@
   .btn-primary { background: #1E6FA8; color: #fff; }
   .btn-primary:hover { background: #2F88C5; transform: translateY(-1px); }
   .btn-ghost {
-    background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.18);
+    background: #fff; color: var(--navy); border: 1px solid var(--border);
   }
-  .btn-ghost:hover { background: rgba(255,255,255,.18); }
+  .btn-ghost:hover { background: #FAFBFD; border-color: var(--navy); }
   .btn-secondary {
     background: var(--surface); color: var(--navy); border: 1px solid var(--border);
   }
