@@ -627,34 +627,13 @@ const SCORE_LABELS = {
   9: '9 — Industry-leading',
 };
 
-// Defaults — Medium for everything, then category presets per business type
-const B2B_PRESETS = {
-  'LinkedIn Presence': 3,
-  'Facebook / Instagram Presence': 1,
-  'CRM System': 3,
-  'Website Quality': 3,
-  'Content Marketing': 3,
-  'E-commerce Capability': 1,
-};
-const B2C_PRESETS = {
-  'Facebook / Instagram Presence': 3,
-  'LinkedIn Presence': 1,
-  'E-commerce Capability': 3,
-  'Online Reviews / Reputation': 3,
-  'Website Quality': 3,
-  'CRM System': 2,
-};
-
-const buildInitialRows = (businessType) => {
-  const presets = businessType === 'B2C' ? B2C_PRESETS : B2B_PRESETS;
-  return CATEGORIES.map((name) => ({
-    category: name,
-    weight: presets[name] ?? 2,
-    yourScore: null,
-    clientScore: null,
-    notes: '',
-  }));
-};
+const buildInitialRows = () => CATEGORIES.map((name) => ({
+  category: name,
+  weight: 1,
+  yourScore: null,
+  clientScore: null,
+  notes: '',
+}));
 
 const weightLabel = (w) => WEIGHT_OPTIONS.find(o => o.value === w)?.label ?? '—';
 
@@ -791,8 +770,7 @@ const PencilIcon = () => (
 
 /* -------------------- Main App -------------------- */
 function App() {
-  const [businessType, setBusinessType] = useState('B2B');
-  const [rows, setRows] = useState(() => buildInitialRows('B2B'));
+  const [rows, setRows] = useState(buildInitialRows);
   const [client, setClient] = useState({ name: '', consultant: '', date: new Date().toISOString().slice(0, 10) });
   const [toast, setToast] = useState('');
   const [openNotesIdx, setOpenNotesIdx] = useState(null);
@@ -810,21 +788,13 @@ function App() {
     setTimeout(() => setToast(''), 2200);
   };
 
-  const switchBusinessType = (t) => {
-    setBusinessType(t);
-    // reapply weight presets but preserve scores + notes
-    const presets = t === 'B2C' ? B2C_PRESETS : B2B_PRESETS;
-    setRows(prev => prev.map(r => ({ ...r, weight: presets[r.category] ?? 2 })));
-    showToast(`Applied ${t} weighting defaults`);
-  };
-
   const updateRow = (idx, patch) => {
     setRows(prev => prev.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
   };
 
   const resetAll = () => {
     if (!confirm('Reset all scores, notes, and client info?')) return;
-    setRows(buildInitialRows(businessType));
+    setRows(buildInitialRows());
     setClient({ name: '', consultant: '', date: new Date().toISOString().slice(0, 10) });
     setOpenNotesIdx(null);
     showToast('Scorecard reset');
@@ -898,7 +868,6 @@ function App() {
     let leftY = y, rightY = y;
 
     if (client.date)       { doc.text(`Date: ${client.date}`, margin, leftY); leftY += 18; }
-    doc.text(`Business type: ${businessType}`, margin, leftY); leftY += 18;
 
     if (client.name)       { doc.text(`Client: ${client.name}`, metaColRight, rightY); rightY += 18; }
     if (client.consultant) { doc.text(`Consultant: ${client.consultant}`, metaColRight, rightY); rightY += 18; }
@@ -1125,16 +1094,6 @@ function App() {
           </div>
         </div>
         <div className="topbar-actions">
-          <div className="seg" role="tablist" aria-label="Business type">
-            <button
-              className={businessType === 'B2B' ? 'active' : ''}
-              onClick={() => switchBusinessType('B2B')}
-            >B2B</button>
-            <button
-              className={businessType === 'B2C' ? 'active' : ''}
-              onClick={() => switchBusinessType('B2C')}
-            >B2C</button>
-          </div>
           <button className="btn btn-ghost" onClick={resetAll}>Reset</button>
           <button className="btn btn-primary" onClick={exportPDF}>
             <span>↓</span> Export PDF
