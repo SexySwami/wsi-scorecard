@@ -53,12 +53,15 @@
   }
   .brand { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 auto; }
   .brand-mark {
-    width: 44px; height: 44px; border-radius: 10px;
-    background: var(--orange);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; color: #fff; letter-spacing: 0.5px;
-    box-shadow: 0 4px 10px rgba(242,107,33,.4);
+    height: 40px;
+    display: flex; align-items: center;
     flex-shrink: 0;
+  }
+  .brand-mark img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: contain;
   }
   .brand-text { min-width: 0; }
   .brand-text h1 {
@@ -71,7 +74,7 @@
   @media (max-width: 880px) {
     .topbar { padding: 12px 14px; gap: 10px; }
     .brand { gap: 10px; flex-basis: 100%; }
-    .brand-mark { width: 36px; height: 36px; font-size: 13px; border-radius: 8px; }
+    .brand-mark { height: 32px; }
     .brand-text h1 { font-size: 14px; }
     .brand-text p { display: none; }
     .topbar-actions { width: 100%; gap: 8px; }
@@ -1087,7 +1090,9 @@ function App() {
     <>
       <header className="topbar">
         <div className="brand">
-          <div className="brand-mark">WSI</div>
+          <div className="brand-mark">
+            <img src="wsi-logo.png" alt="WSI" />
+          </div>
           <div className="brand-text">
             <h1>Swami Group Digital Marketing Assessment</h1>
             <p>Discovery scorecard · live consultant tool</p>
