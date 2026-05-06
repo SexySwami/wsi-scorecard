@@ -976,7 +976,7 @@ function App() {
     doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
     doc.text('CATEGORY', colX[0] + 4, y);
     doc.text('WEIGHT',   colX[1] + 4, y);
-    doc.text('YOUR',     colX[2] + 4, y);
+    doc.text('CONSULT.',  colX[2] + 4, y);
     doc.text('CLIENT',   colX[3] + 4, y);
     doc.text('WEIGHTED', colX[4] + 4, y);
     doc.text('NOTES',    colX[5] + 4, y);
@@ -1134,7 +1134,7 @@ function App() {
                 <tr>
                   <th>Category</th>
                   <th style={{width: 140}}>Weight</th>
-                  <th style={{width: 160}}>Your Score</th>
+                  <th style={{width: 160}}>Consultant Score</th>
                   <th style={{width: 160}}>Client Score</th>
                   <th style={{width: 75}}>Gap</th>
                   <th style={{width: 55, textAlign: 'center'}}>Notes</th>
@@ -1168,13 +1168,13 @@ function App() {
                           ariaLabel={`Weight for ${r.category}`}
                         />
                       </td>
-                      <td className="your-cell" data-label="Your Score">
+                      <td className="your-cell" data-label="Consultant Score">
                         <PillSelect
                           kind="score"
                           options={SCORE_PILLS}
                           value={r.yourScore}
                           onChange={v => updateRow(idx, { yourScore: r.yourScore === v ? null : v })}
-                          ariaLabel={`Your score for ${r.category}`}
+                          ariaLabel={`Consultant score for ${r.category}`}
                         />
                       </td>
                       <td className="client-cell" data-label="Client Score">
