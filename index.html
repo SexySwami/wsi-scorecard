@@ -158,9 +158,17 @@
     margin-bottom: 6px;
   }
   .client-info input {
-    width: 100%; border: 1px solid var(--border); border-radius: 8px;
+    width: 100%; min-width: 0; max-width: 100%;
+    border: 1px solid var(--border); border-radius: 8px;
     padding: 9px 12px; font-family: inherit; font-size: 14px; color: var(--text);
-    background: #fafbfd; transition: border-color .15s ease, background .15s ease;
+    background: #fafbfd;
+    transition: border-color .15s ease, background .15s ease;
+    -webkit-appearance: none; appearance: none;
+    display: block;
+  }
+  .client-info input[type="date"] {
+    -webkit-appearance: none; appearance: none;
+    min-height: 38px; text-align: left;
   }
   .client-info input:focus {
     outline: none; border-color: var(--navy); background: #fff;
