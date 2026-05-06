@@ -1,0 +1,1419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WSI Digital Marketing Assessment Scorecard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0E2240;
+    --navy-deep: #081832;
+    --navy-soft: #1A3563;
+    --orange: #F26B21;
+    --orange-soft: #FF8A47;
+    --bg: #F4F6FA;
+    --surface: #FFFFFF;
+    --border: #E2E7EF;
+    --text: #1A2233;
+    --muted: #6B7488;
+    --warn-bg: #FFF7DB;
+    --warn-border: #F2C94C;
+    --good-bg: #E6F4EA;
+    --good-border: #34A853;
+    --shadow: 0 1px 2px rgba(14,34,64,.06), 0 8px 24px rgba(14,34,64,.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  /* ---------- Header ---------- */
+  .topbar {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    color: #fff;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    box-shadow: 0 2px 12px rgba(14,34,64,.18);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 auto; }
+  .brand-mark {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #fff; letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(242,107,33,.4);
+    flex-shrink: 0;
+  }
+  .brand-text { min-width: 0; }
+  .brand-text h1 {
+    font-size: 17px; margin: 0; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .brand-text p {
+    font-size: 12px; margin: 2px 0 0; color: #B6C2D9; font-weight: 500;
+  }
+  .topbar-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  @media (max-width: 880px) {
+    .topbar { padding: 12px 14px; gap: 10px; }
+    .brand { gap: 10px; flex-basis: 100%; }
+    .brand-mark { width: 36px; height: 36px; font-size: 13px; border-radius: 8px; }
+    .brand-text h1 { font-size: 14px; }
+    .brand-text p { display: none; }
+    .topbar-actions { width: 100%; gap: 8px; }
+    .topbar-actions .btn { padding: 8px 12px; font-size: 12px; }
+    .seg button { padding: 6px 12px; font-size: 12px; }
+  }
+
+  /* ---------- B2B/B2C toggle ---------- */
+  .seg {
+    display: inline-flex;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 10px;
+    padding: 4px;
+  }
+  .seg button {
+    border: 0; background: transparent; color: #C7D2E3;
+    font-weight: 600; font-size: 13px; padding: 7px 16px;
+    border-radius: 7px; cursor: pointer; transition: all .15s ease;
+    font-family: inherit;
+  }
+  .seg button.active {
+    background: var(--orange); color: #fff;
+    box-shadow: 0 2px 6px rgba(242,107,33,.35);
+  }
+  .seg button:not(.active):hover { color: #fff; }
+
+  .btn {
+    border: 0; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 13px;
+    padding: 9px 16px; border-radius: 8px; transition: all .15s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--orange); color: #fff; }
+  .btn-primary:hover { background: var(--orange-soft); transform: translateY(-1px); }
+  .btn-ghost {
+    background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.18);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,.18); }
+  .btn-secondary {
+    background: var(--surface); color: var(--navy); border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--navy); }
+
+  /* ---------- Layout ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    padding: 24px 28px;
+    max-width: 1500px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 1280px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 880px) {
+    .layout { padding: 14px; gap: 14px; }
+  }
+
+  /* ---------- Client info ---------- */
+  .card {
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .client-info {
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 720px) { .client-info { grid-template-columns: 1fr; } }
+  .client-info label {
+    display: block; font-size: 11px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .client-info input {
+    width: 100%; border: 1px solid var(--border); border-radius: 8px;
+    padding: 9px 12px; font-family: inherit; font-size: 14px; color: var(--text);
+    background: #fafbfd; transition: border-color .15s ease, background .15s ease;
+  }
+  .client-info input:focus {
+    outline: none; border-color: var(--navy); background: #fff;
+    box-shadow: 0 0 0 3px rgba(14,34,64,.08);
+  }
+
+  /* ---------- Table ---------- */
+  .table-wrap {
+    padding: 4px;
+    overflow-x: auto;
+  }
+  table.scorecard {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13.5px;
+  }
+  table.scorecard thead th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 12px 12px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  table.scorecard thead th:first-child { border-top-left-radius: 12px; }
+  table.scorecard thead th:last-child { border-top-right-radius: 12px; }
+  table.scorecard tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    background: var(--surface);
+  }
+  table.scorecard tbody tr:last-child td { border-bottom: none; }
+  table.scorecard tbody tr.row-warn td { background: var(--warn-bg) !important; }
+  table.scorecard tbody tr.row-good td { background: var(--good-bg) !important; }
+  table.scorecard tbody tr:hover td { background: #FAFBFD; }
+  table.scorecard tbody tr.row-warn:hover td { background: #FFF1B8 !important; }
+  table.scorecard tbody tr.row-good:hover td { background: #D6EDDC !important; }
+
+  /* Mobile: convert table rows into stacked cards */
+  @media (max-width: 880px) {
+    .table-wrap {
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      overflow: visible;
+    }
+    table.scorecard { background: transparent; }
+    table.scorecard thead { display: none; }
+    table.scorecard, table.scorecard tbody, table.scorecard tr { display: block; width: 100%; }
+    table.scorecard tbody tr {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px 10px;
+      align-items: center;
+    }
+    table.scorecard tbody tr.row-warn { background: var(--warn-bg) !important; border-color: var(--warn-border); }
+    table.scorecard tbody tr.row-good { background: var(--good-bg) !important; border-color: var(--good-border); }
+    table.scorecard tbody tr:hover td,
+    table.scorecard tbody tr.row-warn:hover td,
+    table.scorecard tbody tr.row-good:hover td { background: transparent !important; }
+    table.scorecard tbody td {
+      display: block;
+      border: none;
+      padding: 0;
+      background: transparent !important;
+    }
+    table.scorecard td[data-label]::before {
+      content: attr(data-label);
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    table.scorecard td.cat-name {
+      grid-column: 1; grid-row: 1;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
+      min-width: 0;
+    }
+    table.scorecard td.cat-name::before { content: none; }
+    table.scorecard td.gap-cell {
+      grid-column: 2; grid-row: 1;
+      text-align: right; align-self: center;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
+    }
+    table.scorecard td.notes-cell {
+      grid-column: 3; grid-row: 1;
+      align-self: center; text-align: right;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
+    }
+    table.scorecard td.weight-cell { grid-column: 1 / -1; grid-row: 2; }
+    table.scorecard td.your-cell   { grid-column: 1 / -1; grid-row: 3; }
+    table.scorecard td.client-cell { grid-column: 1 / -1; grid-row: 4; }
+    table.scorecard td[data-label]::before { margin-bottom: 6px; }
+
+    /* Results panel — unstick & tighten on mobile */
+    .results { position: static; }
+    .client-info { padding: 14px 16px; }
+    .panel-header { padding: 14px 16px; }
+    .panel-body { padding: 14px 16px; }
+    .score-hero { padding: 18px 14px; }
+    .score-big { font-size: 44px; }
+    .score-big small { font-size: 18px; }
+    .insight-list li { font-size: 12.5px; }
+    .radar-legend { gap: 12px; flex-wrap: wrap; }
+    .scoring-help { padding: 12px 14px; }
+  }
+
+  .cat-name {
+    font-weight: 600;
+    color: var(--navy);
+    min-width: 180px;
+  }
+  .cat-num {
+    display: inline-block;
+    width: 22px; height: 22px;
+    background: var(--bg);
+    color: var(--muted);
+    border-radius: 6px;
+    font-size: 11px; font-weight: 700;
+    text-align: center; line-height: 22px;
+    margin-right: 8px;
+  }
+
+  /* Pill button group — replaces dropdowns for weight and scores */
+  .pill-group {
+    display: inline-flex;
+    background: #EEF1F7;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 3px;
+    gap: 2px;
+    width: 100%;
+    justify-content: stretch;
+  }
+  .pill-group .pill {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 6px 8px;
+    border-radius: 6px;
+    min-width: 0;
+    text-align: center;
+    transition: all .12s ease;
+    white-space: nowrap;
+  }
+  .pill-group .pill:hover { color: var(--navy); background: #fff; }
+  .pill-group .pill.active {
+    background: var(--navy);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(14,34,64,.25);
+  }
+  .pill-group.weight .pill.active.weight-low    { background: #6B7488; }
+  .pill-group.weight .pill.active.weight-medium { background: var(--navy); }
+  .pill-group.weight .pill.active.weight-high   { background: var(--orange); }
+  .pill-group.score .pill.active.score-0 { background: #C0392B; }
+  .pill-group.score .pill.active.score-1 { background: #E67E22; }
+  .pill-group.score .pill.active.score-3 { background: #2E86AB; }
+  .pill-group.score .pill.active.score-9 { background: #27AE60; }
+
+  /* Notes pencil button */
+  .notes-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    width: 34px; height: 32px;
+    border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    font-family: inherit;
+    transition: all .12s ease;
+    position: relative;
+  }
+  .notes-btn:hover { border-color: var(--navy); color: var(--navy); background: #FAFBFD; }
+  .notes-btn.has-notes {
+    color: #fff;
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+  .notes-btn.has-notes:hover { background: var(--orange-soft); }
+  .notes-btn .note-dot {
+    position: absolute; top: -3px; right: -3px;
+    width: 8px; height: 8px;
+    background: var(--orange); border-radius: 50%;
+    border: 2px solid var(--surface);
+    display: none;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(8, 24, 50, 0.55);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    animation: fadeIn .15s ease;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: 14px;
+    width: 100%; max-width: 560px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    animation: slideUp .2s ease;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    max-height: 90vh;
+  }
+  .modal-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+  .modal-header .modal-title { min-width: 0; }
+  .modal-header h3 {
+    margin: 0; font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: #B6C2D9;
+  }
+  .modal-header .modal-cat {
+    font-size: 16px; font-weight: 700; margin-top: 2px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .modal-close {
+    border: 0; background: rgba(255,255,255,.1);
+    color: #fff;
+    font-size: 22px; cursor: pointer; line-height: 1;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .12s ease;
+  }
+  .modal-close:hover { background: rgba(255,255,255,.22); }
+  .modal-body { padding: 20px; overflow-y: auto; }
+  .modal-body textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 140px;
+    color: var(--text);
+    background: #FAFBFD;
+  }
+  .modal-body textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(14,34,64,.08);
+  }
+  .modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 8px;
+    background: var(--bg);
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .gap-cell {
+    text-align: center;
+    font-weight: 600;
+    white-space: nowrap;
+    min-width: 70px;
+  }
+  .gap-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 999px; font-size: 11.5px;
+    font-weight: 700;
+  }
+  .gap-pill.warn { background: #FCE9A8; color: #8A5A00; }
+  .gap-pill.good { background: #BFE5C9; color: #1E5C2E; }
+  .gap-pill.muted { background: #EEF1F6; color: var(--muted); }
+
+  /* ---------- Results panel ---------- */
+  .results { position: sticky; top: 96px; }
+  .results .card + .card { margin-top: 16px; }
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-header h3 {
+    margin: 0; font-size: 14px; font-weight: 700; color: var(--navy);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .panel-body { padding: 18px 20px; }
+
+  .score-hero {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 22px 18px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    color: #fff;
+    border-radius: 14px 14px 0 0;
+  }
+  .score-big {
+    font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;
+    color: #fff;
+  }
+  .score-big small {
+    font-size: 22px; color: #B6C2D9; font-weight: 600;
+  }
+  .score-label {
+    margin-top: 6px; font-size: 12px; color: #B6C2D9;
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+  }
+  .score-tier {
+    margin-top: 12px; padding: 5px 12px;
+    background: var(--orange); color: #fff;
+    font-size: 12px; font-weight: 700; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .score-bar {
+    width: 100%; height: 6px; background: rgba(255,255,255,.15);
+    border-radius: 3px; margin-top: 14px; overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%; background: var(--orange); border-radius: 3px;
+    transition: width .4s ease;
+  }
+
+  .insight-list { list-style: none; margin: 0; padding: 0; }
+  .insight-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0; font-size: 13px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .insight-list li:last-child { border-bottom: none; }
+  .insight-list .ico {
+    flex: 0 0 22px; width: 22px; height: 22px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; margin-top: 1px;
+  }
+  .insight-list .ico.good { background: #D9F0DF; color: #1E5C2E; }
+  .insight-list .ico.gap  { background: #FCE9A8; color: #8A5A00; }
+  .insight-list .name { font-weight: 600; color: var(--navy); }
+  .insight-list .meta { color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+  .insight-list .empty {
+    color: var(--muted); font-style: italic; padding: 8px 0;
+  }
+
+  /* ---------- Radar ---------- */
+  .radar-wrap { display: flex; justify-content: center; padding: 6px 0 0; }
+  .radar-legend {
+    display: flex; justify-content: center; gap: 18px;
+    margin-top: 6px; font-size: 11.5px; color: var(--muted);
+  }
+  .radar-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .radar-legend .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+
+  /* ---------- Scoring guide sidebar ---------- */
+  .scoring-help {
+    padding: 14px 18px;
+  }
+  .help-row {
+    display: flex; gap: 10px; padding: 6px 0;
+    font-size: 12.5px;
+  }
+  .help-row + .help-row { border-top: 1px dashed var(--border); }
+  .help-score {
+    flex: 0 0 28px; height: 24px; border-radius: 6px;
+    text-align: center; line-height: 24px; font-weight: 800; font-size: 13px;
+    color: #fff;
+  }
+  .help-score.s9 { background: #27AE60; }
+  .help-score.s3 { background: #2E86AB; }
+  .help-score.s1 { background: #E67E22; }
+  .help-score.s0 { background: #C0392B; }
+  .help-text strong { color: var(--navy); }
+  .help-text { color: var(--muted); }
+
+  /* ---------- Export footer ---------- */
+  .export-bar {
+    padding: 16px 20px;
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .export-bar .btn { flex: 1; justify-content: center; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--navy); color: #fff;
+    padding: 12px 18px; border-radius: 10px; font-weight: 600; font-size: 13px;
+    box-shadow: 0 8px 24px rgba(14,34,64,.25);
+    transform: translateY(20px); opacity: 0;
+    transition: all .25s ease; pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* Print: hide UI chrome when "Print PDF" is used as fallback */
+  @media print {
+    .topbar, .export-bar, .scoring-help, .client-info input, select.field, input.notes { display: none; }
+    body { background: #fff; }
+    .layout { grid-template-columns: 1fr; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- React (production builds via CDN) -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<!-- jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Babel for JSX in browser -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useMemo, useRef, useEffect } = React;
+
+/* -------------------- Constants -------------------- */
+const CATEGORIES = [
+  'Website Quality',
+  'SEO / Google Search Presence',
+  'YouTube / Video Presence',
+  'Google Ads',
+  'LinkedIn Presence',
+  'Facebook / Instagram Presence',
+  'Other Social Media',
+  'Online Reviews / Reputation',
+  'Email Marketing',
+  'Marketing Automation',
+  'CRM System',
+  'Content Marketing',
+  'Analytics / Reporting',
+  'E-commerce Capability',
+  'Overall Digital Strategy',
+];
+
+const WEIGHT_OPTIONS = [
+  { label: 'Low',    value: 1 },
+  { label: 'Medium', value: 2 },
+  { label: 'High',   value: 3 },
+];
+const SCORE_OPTIONS = [0, 1, 3, 9];
+const SCORE_LABELS = {
+  0: '0 — Non-existent',
+  1: '1 — Basic',
+  3: '3 — Decent',
+  9: '9 — Industry-leading',
+};
+
+// Defaults — Medium for everything, then category presets per business type
+const B2B_PRESETS = {
+  'LinkedIn Presence': 3,
+  'Facebook / Instagram Presence': 1,
+  'CRM System': 3,
+  'Website Quality': 3,
+  'Content Marketing': 3,
+  'E-commerce Capability': 1,
+};
+const B2C_PRESETS = {
+  'Facebook / Instagram Presence': 3,
+  'LinkedIn Presence': 1,
+  'E-commerce Capability': 3,
+  'Online Reviews / Reputation': 3,
+  'Website Quality': 3,
+  'CRM System': 2,
+};
+
+const buildInitialRows = (businessType) => {
+  const presets = businessType === 'B2C' ? B2C_PRESETS : B2B_PRESETS;
+  return CATEGORIES.map((name) => ({
+    category: name,
+    weight: presets[name] ?? 2,
+    yourScore: null,
+    clientScore: null,
+    notes: '',
+  }));
+};
+
+const weightLabel = (w) => WEIGHT_OPTIONS.find(o => o.value === w)?.label ?? '—';
+
+const tierFor = (pct) => {
+  if (pct >= 75) return { label: 'Industry-leading', color: '#27AE60' };
+  if (pct >= 50) return { label: 'Above average',     color: '#2E86AB' };
+  if (pct >= 25) return { label: 'Developing',        color: '#E67E22' };
+  return            { label: 'Foundational',          color: '#C0392B' };
+};
+
+/* -------------------- Radar Chart (SVG) -------------------- */
+function RadarChart({ rows, size = 320 }) {
+  const cx = size / 2, cy = size / 2;
+  const radius = size * 0.38;
+  const n = rows.length;
+  const maxScore = 9;
+
+  const angle = (i) => (Math.PI * 2 * i) / n - Math.PI / 2;
+  const point = (i, value) => {
+    const r = (value / maxScore) * radius;
+    return [cx + r * Math.cos(angle(i)), cy + r * Math.sin(angle(i))];
+  };
+
+  // grid rings
+  const rings = [0.25, 0.5, 0.75, 1].map(f => {
+    const pts = rows.map((_, i) => {
+      const r = f * radius;
+      return `${cx + r * Math.cos(angle(i))},${cy + r * Math.sin(angle(i))}`;
+    }).join(' ');
+    return <polygon key={f} points={pts} fill="none" stroke="#E2E7EF" strokeWidth="1" />;
+  });
+
+  const axes = rows.map((_, i) => {
+    const [x, y] = point(i, maxScore);
+    return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#E2E7EF" strokeWidth="1" />;
+  });
+
+  const yourPoly = rows.map((r, i) => point(i, r.yourScore ?? 0).join(',')).join(' ');
+  const clientPoly = rows.map((r, i) => point(i, r.clientScore ?? 0).join(',')).join(' ');
+
+  // labels
+  const labels = rows.map((r, i) => {
+    const [x, y] = point(i, maxScore * 1.18);
+    const short = r.category
+      .replace(' / ', '/')
+      .replace('Google Search Presence', 'Search')
+      .replace('Facebook/Instagram Presence', 'FB/IG')
+      .replace('Other Social Media', 'Other Social')
+      .replace('Online Reviews/Reputation', 'Reviews')
+      .replace('Marketing Automation', 'Automation')
+      .replace('Content Marketing', 'Content')
+      .replace('Analytics/Reporting', 'Analytics')
+      .replace('E-commerce Capability', 'E-comm')
+      .replace('Overall Digital Strategy', 'Strategy')
+      .replace('YouTube/Video Presence', 'Video')
+      .replace('LinkedIn Presence', 'LinkedIn')
+      .replace('Website Quality', 'Website')
+      .replace('CRM System', 'CRM')
+      .replace('Email Marketing', 'Email');
+    return (
+      <text
+        key={i} x={x} y={y}
+        textAnchor="middle" dominantBaseline="middle"
+        fontSize="9.5" fill="#6B7488" fontWeight="600"
+      >{short}</text>
+    );
+  });
+
+  return (
+    <svg
+      width="100%"
+      height="auto"
+      viewBox={`0 0 ${size} ${size}`}
+      preserveAspectRatio="xMidYMid meet"
+      style={{display: 'block', maxWidth: size, margin: '0 auto'}}
+    >
+      {rings}
+      {axes}
+      <polygon points={clientPoly} fill="rgba(242,107,33,0.18)" stroke="#F26B21" strokeWidth="1.5" strokeDasharray="3 3" />
+      <polygon points={yourPoly}   fill="rgba(14,34,64,0.22)"   stroke="#0E2240" strokeWidth="2" />
+      {rows.map((r, i) => {
+        const [x, y] = point(i, r.yourScore ?? 0);
+        return <circle key={'p'+i} cx={x} cy={y} r="3" fill="#0E2240" />;
+      })}
+      {labels}
+    </svg>
+  );
+}
+
+/* -------------------- Pill button group -------------------- */
+function PillSelect({ kind, options, value, onChange, ariaLabel }) {
+  return (
+    <div className={`pill-group ${kind}`} role="group" aria-label={ariaLabel}>
+      {options.map(o => {
+        const active = value === o.value;
+        const cls = `pill${active ? ` active ${kind}-${o.cls ?? o.value}` : ''}`;
+        return (
+          <button
+            key={o.value}
+            type="button"
+            className={cls}
+            title={o.title || o.label}
+            onClick={() => onChange(o.value)}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const WEIGHT_PILLS = [
+  { value: 1, label: 'Low',  cls: 'low',    title: 'Low impact (1×)' },
+  { value: 2, label: 'Med',  cls: 'medium', title: 'Medium impact (2×)' },
+  { value: 3, label: 'High', cls: 'high',   title: 'High impact (3×)' },
+];
+const SCORE_PILLS = [
+  { value: 0, label: '0', cls: '0', title: '0 — Non-existent' },
+  { value: 1, label: '1', cls: '1', title: '1 — Basic' },
+  { value: 3, label: '3', cls: '3', title: '3 — Decent' },
+  { value: 9, label: '9', cls: '9', title: '9 — Industry-leading' },
+];
+
+const PencilIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 20h9"/>
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+  </svg>
+);
+
+/* -------------------- Main App -------------------- */
+function App() {
+  const [businessType, setBusinessType] = useState('B2B');
+  const [rows, setRows] = useState(() => buildInitialRows('B2B'));
+  const [client, setClient] = useState({ name: '', consultant: '', date: new Date().toISOString().slice(0, 10) });
+  const [toast, setToast] = useState('');
+  const [openNotesIdx, setOpenNotesIdx] = useState(null);
+  const exportRef = useRef(null);
+
+  useEffect(() => {
+    if (openNotesIdx === null) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpenNotesIdx(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [openNotesIdx]);
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 2200);
+  };
+
+  const switchBusinessType = (t) => {
+    setBusinessType(t);
+    // reapply weight presets but preserve scores + notes
+    const presets = t === 'B2C' ? B2C_PRESETS : B2B_PRESETS;
+    setRows(prev => prev.map(r => ({ ...r, weight: presets[r.category] ?? 2 })));
+    showToast(`Applied ${t} weighting defaults`);
+  };
+
+  const updateRow = (idx, patch) => {
+    setRows(prev => prev.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
+  };
+
+  const resetAll = () => {
+    if (!confirm('Reset all scores, notes, and client info?')) return;
+    setRows(buildInitialRows(businessType));
+    setClient({ name: '', consultant: '', date: new Date().toISOString().slice(0, 10) });
+    setOpenNotesIdx(null);
+    showToast('Scorecard reset');
+  };
+
+  /* ---- Computed metrics ---- */
+  const metrics = useMemo(() => {
+    let weightedActual = 0, weightedMax = 0, completed = 0;
+    rows.forEach(r => {
+      const score = r.yourScore;
+      if (score !== null) {
+        weightedActual += score * r.weight;
+        completed += 1;
+      }
+      weightedMax += 9 * r.weight;
+    });
+    const pct = weightedMax > 0 ? Math.round((weightedActual / weightedMax) * 100) : 0;
+
+    // strengths: highest raw score first (matches what looks high on the radar),
+    // weight as tiebreaker so a score-9 always beats a score-3 regardless of weight
+    const strengths = rows
+      .filter(r => r.yourScore !== null && r.yourScore >= 3)
+      .map(r => ({ ...r, weightedScore: r.yourScore * r.weight }))
+      .sort((a, b) => b.yourScore - a.yourScore || b.weight - a.weight)
+      .slice(0, 3);
+
+    // gaps: lowest raw score first (matches what looks low on the radar),
+    // weight as tiebreaker so the lowest scores in important areas surface first
+    const gaps = rows
+      .filter(r => r.yourScore !== null && r.yourScore < 9)
+      .map(r => ({ ...r, gapValue: (9 - r.yourScore) * r.weight }))
+      .sort((a, b) => a.yourScore - b.yourScore || b.weight - a.weight)
+      .slice(0, 3);
+
+    // reality checks: client - your >= 2
+    const realityChecks = rows.filter(r =>
+      r.yourScore !== null && r.clientScore !== null && (r.clientScore - r.yourScore) >= 2
+    );
+
+    return { weightedActual, weightedMax, pct, completed, strengths, gaps, realityChecks };
+  }, [rows]);
+
+  const tier = tierFor(metrics.pct);
+
+  /* ---- PDF export ---- */
+  const exportPDF = () => {
+    if (!window.jspdf) { showToast('PDF library not loaded'); return; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    const pageW = doc.internal.pageSize.getWidth();
+    const margin = 40;
+    let y = margin;
+
+    // Header bar
+    doc.setFillColor(14, 34, 64);
+    doc.rect(0, 0, pageW, 70, 'F');
+    doc.setFillColor(242, 107, 33);
+    doc.rect(0, 70, pageW, 4, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(18);
+    doc.text('WSI Digital Marketing Assessment', margin, 38);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    doc.setTextColor(182, 194, 217);
+    doc.text('Discovery scorecard summary', margin, 56);
+    y = 100;
+
+    // Client meta — two columns: date + business type on left, client + consultant on right
+    doc.setTextColor(26, 34, 51);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    const metaColRight = pageW / 2 + 10;
+    let leftY = y, rightY = y;
+
+    if (client.date)       { doc.text(`Date: ${client.date}`, margin, leftY); leftY += 18; }
+    doc.text(`Business type: ${businessType}`, margin, leftY); leftY += 18;
+
+    if (client.name)       { doc.text(`Client: ${client.name}`, metaColRight, rightY); rightY += 18; }
+    if (client.consultant) { doc.text(`Consultant: ${client.consultant}`, metaColRight, rightY); rightY += 18; }
+
+    y = Math.max(leftY, rightY) + 6;
+
+    // Score hero
+    doc.setDrawColor(226, 231, 239);
+    doc.setFillColor(14, 34, 64);
+    doc.roundedRect(margin, y, pageW - margin * 2, 80, 8, 8, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(34);
+    const pctText = `${metrics.pct}`;
+    const pctWidth = doc.getTextWidth(pctText);
+    doc.text(pctText, margin + 24, y + 50);
+    doc.setFontSize(16);
+    doc.setTextColor(182, 194, 217);
+    doc.text('/100', margin + 24 + pctWidth + 6, y + 50);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.setTextColor(255, 255, 255);
+    doc.text('DIGITAL MATURITY SCORE', margin + 24, y + 22);
+    doc.setTextColor(242, 107, 33);
+    doc.setFontSize(11);
+    doc.text(tier.label.toUpperCase(), pageW - margin - 24 - doc.getTextWidth(tier.label.toUpperCase()), y + 32);
+    doc.setTextColor(182, 194, 217);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+    const subtxt = `Weighted ${metrics.weightedActual} of ${metrics.weightedMax} possible points`;
+    doc.text(subtxt, pageW - margin - 24 - doc.getTextWidth(subtxt), y + 50);
+    y += 100;
+
+    // Strengths
+    doc.setTextColor(14, 34, 64);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+    doc.text('Top Strengths', margin, y); y += 16;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    doc.setTextColor(26, 34, 51);
+    if (metrics.strengths.length === 0) {
+      doc.setTextColor(107, 116, 136);
+      doc.text('None identified yet — score categories at 3 or 9 to surface strengths.', margin, y);
+      y += 14;
+    } else {
+      metrics.strengths.forEach(s => {
+        doc.setTextColor(39, 174, 96);
+        doc.text('•', margin, y);
+        doc.setTextColor(26, 34, 51);
+        doc.setFont('helvetica', 'bold');
+        const catW = doc.getTextWidth(s.category);
+        doc.text(s.category, margin + 12, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(107, 116, 136);
+        doc.text(`Score ${s.yourScore} • ${weightLabel(s.weight)} weight`, margin + 12 + catW + 10, y);
+        y += 14;
+      });
+    }
+    y += 10;
+
+    // Gaps
+    doc.setTextColor(14, 34, 64);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+    doc.text('Top Gaps & Opportunities', margin, y); y += 16;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    if (metrics.gaps.length === 0) {
+      doc.setTextColor(107, 116, 136);
+      doc.text('No gaps identified.', margin, y); y += 14;
+    } else {
+      metrics.gaps.forEach(g => {
+        doc.setTextColor(242, 107, 33);
+        doc.text('•', margin, y);
+        doc.setTextColor(26, 34, 51);
+        doc.setFont('helvetica', 'bold');
+        const catW = doc.getTextWidth(g.category);
+        doc.text(g.category, margin + 12, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(107, 116, 136);
+        doc.text(`Score ${g.yourScore} • ${weightLabel(g.weight)} weight`, margin + 12 + catW + 10, y);
+        y += 14;
+      });
+    }
+    y += 10;
+
+    // Reality checks
+    if (metrics.realityChecks.length > 0) {
+      doc.setTextColor(138, 90, 0);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+      doc.text('Reality-check conversations', margin, y); y += 16;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+      doc.setTextColor(26, 34, 51);
+      metrics.realityChecks.forEach(r => {
+        doc.text(`• ${r.category} — client rated ${r.clientScore}, consultant rated ${r.yourScore}`, margin, y);
+        y += 14;
+      });
+      y += 8;
+    }
+
+    // Detail table — new page
+    doc.addPage();
+    y = margin;
+    doc.setTextColor(14, 34, 64);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(14);
+    doc.text('Category Detail', margin, y); y += 22;
+
+    const colX = [margin, margin + 180, margin + 230, margin + 280, margin + 330, margin + 380];
+    doc.setFillColor(14, 34, 64);
+    doc.rect(margin, y - 12, pageW - margin * 2, 18, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
+    doc.text('CATEGORY', colX[0] + 4, y);
+    doc.text('WEIGHT',   colX[1] + 4, y);
+    doc.text('YOUR',     colX[2] + 4, y);
+    doc.text('CLIENT',   colX[3] + 4, y);
+    doc.text('WEIGHTED', colX[4] + 4, y);
+    doc.text('NOTES',    colX[5] + 4, y);
+    y += 14;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+    doc.setTextColor(26, 34, 51);
+
+    rows.forEach((r, idx) => {
+      if (y > 730) { doc.addPage(); y = margin; }
+      if (idx % 2 === 0) {
+        doc.setFillColor(248, 250, 253);
+        doc.rect(margin, y - 9, pageW - margin * 2, 14, 'F');
+      }
+      doc.setTextColor(14, 34, 64);
+      doc.setFont('helvetica', 'bold');
+      doc.text(r.category.length > 28 ? r.category.slice(0, 27) + '…' : r.category, colX[0] + 4, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(26, 34, 51);
+      doc.text(weightLabel(r.weight), colX[1] + 4, y);
+      doc.text(r.yourScore === null ? '—' : String(r.yourScore), colX[2] + 4, y);
+      doc.text(r.clientScore === null ? '—' : String(r.clientScore), colX[3] + 4, y);
+      doc.text(r.yourScore === null ? '—' : String(r.yourScore * r.weight), colX[4] + 4, y);
+      const note = r.notes ? (r.notes.length > 32 ? r.notes.slice(0, 31) + '…' : r.notes) : '';
+      doc.setTextColor(107, 116, 136);
+      doc.text(note, colX[5] + 4, y);
+      y += 14;
+    });
+
+    // ----- Page 3+: Discussion Notes -----
+    const rowsWithNotes = rows.filter(r => r.notes && r.notes.trim());
+    if (rowsWithNotes.length > 0) {
+      doc.addPage();
+      y = margin;
+
+      // Page title with orange underline
+      doc.setTextColor(14, 34, 64);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(16);
+      doc.text('Discussion Notes', margin, y);
+      y += 6;
+      doc.setFillColor(242, 107, 33);
+      doc.rect(margin, y, 64, 3, 'F');
+      y += 18;
+
+      // Subtitle
+      doc.setFont('helvetica', 'italic'); doc.setFontSize(10);
+      doc.setTextColor(107, 116, 136);
+      doc.text('Consultant observations captured during the discovery conversation.', margin, y);
+      y += 26;
+
+      const noteWidth = pageW - margin * 2 - 14;
+      const pageBottom = doc.internal.pageSize.getHeight() - 50;
+
+      rowsWithNotes.forEach((r) => {
+        // Reserve enough room for heading + first line; otherwise break
+        if (y + 40 > pageBottom) { doc.addPage(); y = margin; }
+
+        // Orange accent bar to the left of the heading
+        doc.setFillColor(242, 107, 33);
+        doc.rect(margin, y - 11, 3, 16, 'F');
+
+        // Category name (subheading)
+        doc.setTextColor(14, 34, 64);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+        doc.text(r.category, margin + 10, y);
+
+        // Score / weight, right-aligned on the same line
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+        doc.setTextColor(107, 116, 136);
+        const meta = `Score ${r.yourScore === null ? '—' : r.yourScore} · ${weightLabel(r.weight)} weight`;
+        doc.text(meta, pageW - margin - doc.getTextWidth(meta), y);
+
+        y += 16;
+
+        // Note body — wrapped, indented to align with the heading text
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(11);
+        doc.setTextColor(40, 50, 70);
+        const lines = doc.splitTextToSize(r.notes.trim(), noteWidth);
+        lines.forEach(line => {
+          if (y > pageBottom) { doc.addPage(); y = margin; }
+          doc.text(line, margin + 10, y);
+          y += 14;
+        });
+
+        y += 14; // spacing between notes
+      });
+    }
+
+    // Footer
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setTextColor(150, 158, 175);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+      doc.text(`WSI Digital Marketing Assessment  •  Page ${i} of ${totalPages}`,
+        margin, doc.internal.pageSize.getHeight() - 20);
+    }
+
+    const safeName = (client.name || 'client').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    doc.save(`wsi-scorecard-${safeName}-${client.date || 'undated'}.pdf`);
+    showToast('PDF exported');
+  };
+
+  /* ---- Render ---- */
+  const completed = metrics.completed;
+  const total = rows.length;
+
+  return (
+    <>
+      <header className="topbar">
+        <div className="brand">
+          <div className="brand-mark">WSI</div>
+          <div className="brand-text">
+            <h1>Digital Marketing Assessment</h1>
+            <p>Discovery scorecard · live consultant tool</p>
+          </div>
+        </div>
+        <div className="topbar-actions">
+          <div className="seg" role="tablist" aria-label="Business type">
+            <button
+              className={businessType === 'B2B' ? 'active' : ''}
+              onClick={() => switchBusinessType('B2B')}
+            >B2B</button>
+            <button
+              className={businessType === 'B2C' ? 'active' : ''}
+              onClick={() => switchBusinessType('B2C')}
+            >B2C</button>
+          </div>
+          <button className="btn btn-ghost" onClick={resetAll}>Reset</button>
+          <button className="btn btn-primary" onClick={exportPDF}>
+            <span>↓</span> Export PDF
+          </button>
+        </div>
+      </header>
+
+      <div className="layout">
+        {/* LEFT: client info + scorecard */}
+        <div>
+          <div className="card client-info">
+            <div>
+              <label>Client / Company</label>
+              <input
+                type="text" value={client.name} placeholder="Acme Industries"
+                onChange={e => setClient(c => ({ ...c, name: e.target.value }))}
+              />
+            </div>
+            <div>
+              <label>Consultant</label>
+              <input
+                type="text" value={client.consultant} placeholder="Your name"
+                onChange={e => setClient(c => ({ ...c, consultant: e.target.value }))}
+              />
+            </div>
+            <div>
+              <label>Date</label>
+              <input
+                type="date" value={client.date}
+                onChange={e => setClient(c => ({ ...c, date: e.target.value }))}
+              />
+            </div>
+          </div>
+
+          <div className="card table-wrap" ref={exportRef}>
+            <table className="scorecard">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th style={{width: 140}}>Weight</th>
+                  <th style={{width: 160}}>Your Score</th>
+                  <th style={{width: 160}}>Client Score</th>
+                  <th style={{width: 75}}>Gap</th>
+                  <th style={{width: 55, textAlign: 'center'}}>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((r, idx) => {
+                  const youHas = r.yourScore !== null;
+                  const cliHas = r.clientScore !== null;
+                  const both = youHas && cliHas;
+                  const diff = both ? r.clientScore - r.yourScore : null;
+                  const isReality = both && diff >= 2;
+                  const isAgreedTop = both && r.yourScore === 9 && r.clientScore === 9;
+
+                  let rowClass = '';
+                  if (isAgreedTop) rowClass = 'row-good';
+                  else if (isReality) rowClass = 'row-warn';
+
+                  return (
+                    <tr key={r.category} className={rowClass}>
+                      <td className="cat-name">
+                        <span className="cat-num">{idx + 1}</span>
+                        {r.category}
+                      </td>
+                      <td className="weight-cell" data-label="Weight">
+                        <PillSelect
+                          kind="weight"
+                          options={WEIGHT_PILLS}
+                          value={r.weight}
+                          onChange={v => updateRow(idx, { weight: v })}
+                          ariaLabel={`Weight for ${r.category}`}
+                        />
+                      </td>
+                      <td className="your-cell" data-label="Your Score">
+                        <PillSelect
+                          kind="score"
+                          options={SCORE_PILLS}
+                          value={r.yourScore}
+                          onChange={v => updateRow(idx, { yourScore: r.yourScore === v ? null : v })}
+                          ariaLabel={`Your score for ${r.category}`}
+                        />
+                      </td>
+                      <td className="client-cell" data-label="Client Score">
+                        <PillSelect
+                          kind="score"
+                          options={SCORE_PILLS}
+                          value={r.clientScore}
+                          onChange={v => updateRow(idx, { clientScore: r.clientScore === v ? null : v })}
+                          ariaLabel={`Client score for ${r.category}`}
+                        />
+                      </td>
+                      <td className="gap-cell">
+                        {!both ? (
+                          <span className="gap-pill muted">—</span>
+                        ) : isAgreedTop ? (
+                          <span className="gap-pill good">★ 9/9</span>
+                        ) : isReality ? (
+                          <span className="gap-pill warn" title="Client rates themselves significantly higher than your assessment — reality-check conversation">
+                            ⚠ +{diff}
+                          </span>
+                        ) : (
+                          <span className="gap-pill muted">{diff > 0 ? `+${diff}` : diff}</span>
+                        )}
+                      </td>
+                      <td className="notes-cell" data-label="Notes">
+                        <button
+                          type="button"
+                          className={`notes-btn ${r.notes ? 'has-notes' : ''}`}
+                          onClick={() => setOpenNotesIdx(idx)}
+                          aria-label={r.notes ? `Edit note for ${r.category}` : `Add note for ${r.category}`}
+                          title={r.notes ? r.notes : 'Add note'}
+                        >
+                          <PencilIcon />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* RIGHT: results panel */}
+        <aside className="results">
+          <div className="card">
+            <div className="score-hero">
+              <div className="score-label">Digital Maturity Score</div>
+              <div className="score-big">
+                {metrics.pct}<small>/100</small>
+              </div>
+              <div className="score-tier" style={{background: tier.color}}>{tier.label}</div>
+              <div className="score-bar">
+                <div className="score-bar-fill" style={{width: `${metrics.pct}%`}} />
+              </div>
+              <div style={{marginTop: 10, fontSize: 11.5, color: '#B6C2D9', textAlign: 'center'}}>
+                Weighted {metrics.weightedActual} of {metrics.weightedMax} possible · {completed}/{total} categories scored
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="panel-header"><h3>Score by Category</h3></div>
+            <div className="panel-body">
+              <div className="radar-wrap"><RadarChart rows={rows} /></div>
+              <div className="radar-legend">
+                <span><span className="dot" style={{background: 'rgba(14,34,64,0.6)'}} /> Your assessment</span>
+                <span><span className="dot" style={{background: '#F26B21', border: '1px dashed #fff'}} /> Client self-rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="panel-header"><h3>Top 3 Strengths</h3></div>
+            <div className="panel-body">
+              {metrics.strengths.length === 0 ? (
+                <div className="insight-list"><li className="empty">Score categories to surface strengths</li></div>
+              ) : (
+                <ul className="insight-list">
+                  {metrics.strengths.map(s => (
+                    <li key={s.category}>
+                      <span className="ico good">★</span>
+                      <div>
+                        <div className="name">{s.category}</div>
+                        <div className="meta">Score {s.yourScore} · {weightLabel(s.weight)} weight · {s.weightedScore} pts</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="panel-header"><h3>Top 3 Gaps & Opportunities</h3></div>
+            <div className="panel-body">
+              {metrics.gaps.length === 0 ? (
+                <div className="insight-list"><li className="empty">No gaps yet — score categories to surface opportunities</li></div>
+              ) : (
+                <ul className="insight-list">
+                  {metrics.gaps.map(g => (
+                    <li key={g.category}>
+                      <span className="ico gap">!</span>
+                      <div>
+                        <div className="name">{g.category}</div>
+                        <div className="meta">Score {g.yourScore} · {weightLabel(g.weight)} weight · {g.gapValue} pt opportunity</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {metrics.realityChecks.length > 0 && (
+            <div className="card" style={{borderColor: '#F2C94C', background: '#FFFCF1'}}>
+              <div className="panel-header" style={{borderColor: '#F2C94C'}}>
+                <h3 style={{color: '#8A5A00'}}>⚠ Reality-check conversations</h3>
+              </div>
+              <div className="panel-body">
+                <ul className="insight-list">
+                  {metrics.realityChecks.map(r => (
+                    <li key={r.category}>
+                      <span className="ico gap">⚠</span>
+                      <div>
+                        <div className="name">{r.category}</div>
+                        <div className="meta">Client: {r.clientScore} · You: {r.yourScore} · gap of {r.clientScore - r.yourScore}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          <div className="card scoring-help">
+            <div className="panel-header" style={{padding: '4px 4px 12px', borderBottom: '1px dashed var(--border)'}}>
+              <h3>Scoring Guide</h3>
+            </div>
+            <div style={{paddingTop: 8}}>
+              <div className="help-row">
+                <span className="help-score s9">9</span>
+                <div className="help-text"><strong>Industry-leading</strong> — competitors benchmark against them</div>
+              </div>
+              <div className="help-row">
+                <span className="help-score s3">3</span>
+                <div className="help-text"><strong>Fairly decent</strong> — above average</div>
+              </div>
+              <div className="help-row">
+                <span className="help-score s1">1</span>
+                <div className="help-text"><strong>Basic</strong> — exists but minimal</div>
+              </div>
+              <div className="help-row">
+                <span className="help-score s0">0</span>
+                <div className="help-text"><strong>Non-existent</strong></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      {openNotesIdx !== null && (
+        <div className="modal-backdrop" onClick={() => setOpenNotesIdx(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="modal-header">
+              <div className="modal-title">
+                <h3>Notes</h3>
+                <div className="modal-cat">{rows[openNotesIdx].category}</div>
+              </div>
+              <button className="modal-close" onClick={() => setOpenNotesIdx(null)} aria-label="Close">×</button>
+            </div>
+            <div className="modal-body">
+              <textarea
+                value={rows[openNotesIdx].notes}
+                onChange={e => updateRow(openNotesIdx, { notes: e.target.value })}
+                placeholder="Observations, examples, next steps…"
+                autoFocus
+                rows={6}
+              />
+            </div>
+            <div className="modal-footer">
+              {rows[openNotesIdx].notes && (
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => updateRow(openNotesIdx, { notes: '' })}
+                >Clear</button>
+              )}
+              <button className="btn btn-primary" onClick={() => setOpenNotesIdx(null)}>Done</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className={`toast ${toast ? 'show' : ''}`}>{toast}</div>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
