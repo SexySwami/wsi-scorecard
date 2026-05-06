@@ -670,7 +670,9 @@ function RadarChart({ rows, size = 320 }) {
   const cx = size / 2, cy = size / 2;
   const radius = size * 0.38;
   const n = rows.length;
-  const maxScore = 9;
+  // axis max = max raw score (9) × max weight (3) = 27
+  const maxScore = 27;
+  const weighted = (score, weight) => (score ?? 0) * weight;
 
   const angle = (i) => (Math.PI * 2 * i) / n - Math.PI / 2;
   const point = (i, value) => {
@@ -692,8 +694,8 @@ function RadarChart({ rows, size = 320 }) {
     return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#E2E7EF" strokeWidth="1" />;
   });
 
-  const yourPoly = rows.map((r, i) => point(i, r.yourScore ?? 0).join(',')).join(' ');
-  const clientPoly = rows.map((r, i) => point(i, r.clientScore ?? 0).join(',')).join(' ');
+  const yourPoly   = rows.map((r, i) => point(i, weighted(r.yourScore,   r.weight)).join(',')).join(' ');
+  const clientPoly = rows.map((r, i) => point(i, weighted(r.clientScore, r.weight)).join(',')).join(' ');
 
   // labels
   const labels = rows.map((r, i) => {
@@ -736,7 +738,7 @@ function RadarChart({ rows, size = 320 }) {
       <polygon points={clientPoly} fill="rgba(242,107,33,0.18)" stroke="#F26B21" strokeWidth="1.5" strokeDasharray="3 3" />
       <polygon points={yourPoly}   fill="rgba(14,34,64,0.22)"   stroke="#0E2240" strokeWidth="2" />
       {rows.map((r, i) => {
-        const [x, y] = point(i, r.yourScore ?? 0);
+        const [x, y] = point(i, weighted(r.yourScore, r.weight));
         return <circle key={'p'+i} cx={x} cy={y} r="3" fill="#0E2240" />;
       })}
       {labels}
