@@ -32,23 +32,15 @@
     color: #fff;
     background: #5a0a0a;
   }
-  .hero__img, .hero__front {
+  .hero__img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     background: var(--photo) 50% 30% / cover no-repeat;
   }
-  /* Second copy of the photo sits above the giant name, masked to the head,
-     so the name appears to pass behind the subject. */
-  .hero__front {
-    -webkit-mask-image: radial-gradient(ellipse 15% 46% at 57% 30%, #000 60%, transparent 100%);
-            mask-image: radial-gradient(ellipse 15% 46% at 57% 30%, #000 60%, transparent 100%);
-    pointer-events: none;
-  }
   /* Water-ripple layers (WebGL). When active they cover the static backgrounds. */
-  .hero__water, .hero__front canvas {
+  .hero__water {
     position: absolute; inset: 0; width: 100%; height: 100%; display: block;
   }
-  .hero.is-water .hero__front { background: none; }
   .hero__shade {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 22%);
@@ -62,13 +54,19 @@
   .label { position: absolute; z-index: 4; font-size: 14px; font-weight: 500; line-height: 1.15; text-transform: uppercase; letter-spacing: -.01em; }
   .label--role  { left: var(--gutter); top: 16%; }
 
+  /* The name is filled with an inverted copy of the still photo (red -> cyan,
+     dark -> white), so it sits on top unaffected by the ripple. */
   .name {
-    position: absolute; z-index: 3;
-    left: var(--gutter); bottom: 5%;
+    position: absolute; inset: 0; z-index: 3;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 0 2.1vw var(--gutter);
     font-weight: 800; line-height: .78; text-transform: uppercase;
-    letter-spacing: -.045em; color: #fff;
-    mix-blend-mode: difference; /* inverts the photo beneath: red -> cyan, dark -> white */
-    user-select: none;
+    letter-spacing: -.045em;
+    background: var(--photo) 50% 30% / cover no-repeat;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    filter: invert(1);
+    user-select: none; pointer-events: none;
   }
   .name__first { display: block; font-size: 8vw; }
   .name__last  { display: block; font-size: 16.5vw; margin-top: .02em; }
@@ -91,14 +89,10 @@
   @media (max-width: 900px) {
     :root { --gutter: 4vw; }
     .hero { aspect-ratio: auto; height: 100svh; min-height: 560px; }
-    .hero__img, .hero__front { background-position: 62% 30%; }
-    .hero__front {
-      -webkit-mask-image: radial-gradient(ellipse 34% 30% at 62% 26%, #000 60%, transparent 100%);
-              mask-image: radial-gradient(ellipse 34% 30% at 62% 26%, #000 60%, transparent 100%);
-    }
+    .hero__img, .name { background-position: 62% 30%; }
       .logo { left: 6vw; }
     .label--role { top: 18%; }
-        .name { bottom: 8%; }
+    .name { padding-bottom: 8svh; }
     .name__first { font-size: 13vw; }
     .name__last  { font-size: 26vw; }
     .about__row { grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -124,7 +118,6 @@
     <span class="name__last">SWAMI</span>
   </h1>
 
-  <div class="hero__front" aria-hidden="true"></div>
 </header>
 
 <section class="about" id="about">
@@ -283,22 +276,15 @@
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     ready = true;
-    hero.classList.add('is-water');
-    // Mirror the rippled photo into the masked "in front of the name" layer
-    front.appendChild(frontCanvas);
   };
   img.src = photoURL;
-
-  const front = hero.querySelector('.hero__front');
-  const frontCanvas = document.createElement('canvas');
-  const fctx = frontCanvas.getContext('2d');
 
   function resize() {
     const dpr = Math.min(devicePixelRatio || 1, 2);
     const w = Math.round(hero.clientWidth * dpr), h = Math.round(hero.clientHeight * dpr);
     if (w === canvas.width && h === canvas.height) return;
-    canvas.width = frontCanvas.width = w;
-    canvas.height = frontCanvas.height = h;
+    canvas.width = w;
+    canvas.height = h;
     makeTargets();
   }
   new ResizeObserver(resize).observe(hero);
@@ -353,9 +339,6 @@
     gl.uniform2f(r.u.coverPos, mobile.matches ? 0.62 : 0.5, 0.7); // 30% from top == 0.7 with flipped Y
     gl.uniform1f(r.u.perturbance, PERTURBANCE);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-    fctx.clearRect(0, 0, frontCanvas.width, frontCanvas.height);
-    fctx.drawImage(canvas, 0, 0);
   }
   requestAnimationFrame(frame);
 })();
