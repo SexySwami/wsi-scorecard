@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toms Anthon — Art Director</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e00000;
+    --cyan: #19d3dc;
+    --ink: #111;
+    --paper: #fff;
+    --hero-text: #f1f1f1;
+    --gutter: 21.4vw;
+    --font: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2000 / 857;
+    min-height: 520px;
+    overflow: hidden;
+    color: #fff;
+    background: #5a0a0a;
+  }
+  .hero__img, .hero__front {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: 50% 30%;
+  }
+  /* Second copy of the photo sits above the giant name, masked to the head,
+     so the name appears to pass behind the subject. */
+  .hero__front {
+    -webkit-mask-image: radial-gradient(ellipse 15% 46% at 57% 30%, #000 60%, transparent 100%);
+            mask-image: radial-gradient(ellipse 15% 46% at 57% 30%, #000 60%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero__shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 22%);
+    pointer-events: none;
+  }
+
+  .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; height: 84px; }
+  .nav > * { position: absolute; }
+  .logo { left: 2.4vw; top: 18px; font-weight: 700; font-size: 18px; line-height: 1; letter-spacing: -.02em; }
+  .nav__links { left: 42.5vw; top: 22px; display: grid; gap: 8px; font-size: 12.5px; font-weight: 400; }
+  .nav__inquiry { left: 50.2vw; top: 22px; display: grid; gap: 6px; font-size: 12.5px; }
+  .nav__inquiry a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .hire {
+    right: 1.7vw; top: 19px;
+    background: var(--red); color: #fff;
+    padding: 12px 26px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; letter-spacing: .01em; text-transform: uppercase;
+    transition: transform .2s ease, background .2s ease;
+  }
+  .hire:hover { transform: scale(1.05); background: #ff1a1a; }
+
+  .label { position: absolute; z-index: 4; font-size: 14px; font-weight: 500; line-height: 1.15; text-transform: uppercase; letter-spacing: -.01em; }
+  .label--role  { left: var(--gutter); top: 16%; }
+  .label--index { right: 20.5vw; top: 17%; font-style: italic; text-transform: none; }
+  .label--tags  { right: 20vw; top: 50%; display: flex; gap: 4.2vw; }
+  .label--tags span { display: block; padding-left: .7em; text-indent: -.7em; }
+  .label--tags span::before { content: "/ "; }
+
+  .name {
+    position: absolute; z-index: 3;
+    left: var(--gutter); bottom: 5%;
+    font-weight: 800; line-height: .78; text-transform: uppercase;
+    letter-spacing: -.045em; color: var(--hero-text);
+    user-select: none;
+  }
+  .name__first { display: block; font-size: 7.6vw; }
+  .name__last  { display: block; font-size: 14.6vw; margin-top: .02em; }
+  .name .c { color: var(--cyan); mix-blend-mode: normal; }
+
+  /* ---------- About strip ---------- */
+  .about { padding: 90px var(--gutter) 120px; }
+  .about__row {
+    display: grid; grid-template-columns: 12.5vw 1fr auto auto; gap: 0 4vw;
+    font-size: 13px; font-weight: 500; text-transform: uppercase; line-height: 1.2;
+    padding-bottom: 40px; border-bottom: 1px solid #ececec;
+  }
+  .about__row .it { font-style: italic; text-transform: none; }
+  .about__lead {
+    margin: 56px 0 0 calc(12.5vw + 4vw);
+    max-width: 920px; font-size: clamp(22px, 1.75vw, 32px); font-weight: 600;
+    line-height: 1.2; letter-spacing: -.02em;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    :root { --gutter: 4vw; }
+    .hero { aspect-ratio: auto; height: 100svh; min-height: 560px; }
+    .hero__img, .hero__front { object-position: 62% 30%; }
+    .hero__front {
+      -webkit-mask-image: radial-gradient(ellipse 34% 30% at 62% 26%, #000 60%, transparent 100%);
+              mask-image: radial-gradient(ellipse 34% 30% at 62% 26%, #000 60%, transparent 100%);
+    }
+    .nav__links, .nav__inquiry { display: none; }
+    .logo { left: 6vw; }
+    .hire { right: 6vw; padding: 10px 20px; font-size: 12px; }
+    .label--role { top: 18%; }
+    .label--index { right: 6vw; top: 18%; }
+    .label--tags { right: auto; left: var(--gutter); top: auto; bottom: 36%; gap: 6vw; }
+    .name { bottom: 8%; }
+    .name__first { font-size: 13vw; }
+    .name__last  { font-size: 25vw; }
+    .about__row { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .about__lead { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img class="hero__img" src="assets/hero.webp" alt="Portrait of Toms Anthon in a beanie and sunglasses against a red backdrop">
+  <div class="hero__shade"></div>
+
+  <nav class="nav">
+    <a class="logo" href="#">toms.<br>Designer</a>
+    <div class="nav__links"><a href="#about">About</a><a href="#works">Works</a></div>
+    <div class="nav__inquiry"><span>Work inquiry</span><a href="mailto:hello@tomwrok.co">hello@tomwrok.co</a></div>
+    <a class="hire" href="mailto:hello@tomwrok.co">Hire me</a>
+  </nav>
+
+  <p class="label label--role">Art Director<br>&amp; Creative Thinker</p>
+  <p class="label label--index">// 001</p>
+  <div class="label label--tags"><span>Creative<br>Director</span><span>User Interface<br>Designer</span></div>
+
+  <h1 class="name" aria-label="Toms Anthon">
+    <span class="name__first"><span class="c">T</span>OMS</span>
+    <span class="name__last"><span class="c">A</span>NTHON</span>
+  </h1>
+
+  <img class="hero__front" src="assets/hero.webp" alt="" aria-hidden="true">
+</header>
+
+<section class="about" id="about">
+  <div class="about__row">
+    <span>About me</span>
+    <span>Art Director &amp;<br>Visual Storyteller</span>
+    <span>2027</span>
+    <span class="it">// 002</span>
+  </div>
+  <p class="about__lead">I’m Toms Anthon, an art director with a passion for turning ambitious ideas into clear, expressive, and culturally relevant creative work. I work across brand identity, campaigns, editorial, and digital building visual systems that feel as</p>
+</section>
+
+</body>
+</html>
