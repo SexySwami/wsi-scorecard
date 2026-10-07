@@ -76,12 +76,12 @@
     position: absolute; z-index: 3;
     left: var(--gutter); bottom: 5%;
     font-weight: 800; line-height: .78; text-transform: uppercase;
-    letter-spacing: -.045em; color: var(--hero-text);
+    letter-spacing: -.045em; color: #fff;
+    mix-blend-mode: difference; /* inverts the photo beneath: red -> cyan, dark -> white */
     user-select: none;
   }
   .name__first { display: block; font-size: 7.6vw; }
   .name__last  { display: block; font-size: 14.6vw; margin-top: .02em; }
-  .name .c { color: var(--cyan); mix-blend-mode: normal; }
 
   /* ---------- About strip ---------- */
   .about { padding: 90px var(--gutter) 120px; }
@@ -138,8 +138,8 @@
   <div class="label label--tags"><span>Creative<br>Director</span><span>User Interface<br>Designer</span></div>
 
   <h1 class="name" aria-label="Toms Anthon">
-    <span class="name__first"><span class="c">T</span>OMS</span>
-    <span class="name__last"><span class="c">A</span>NTHON</span>
+    <span class="name__first">TOMS</span>
+    <span class="name__last">ANTHON</span>
   </h1>
 
   <div class="hero__front" aria-hidden="true"></div>
