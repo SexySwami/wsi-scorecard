@@ -41,6 +41,9 @@
   .hero__water {
     position: absolute; inset: 0; width: 100%; height: 100%; display: block;
   }
+  /* With WebGL the name is drawn into the canvas so it ripples with the photo;
+     the DOM copy stays for layout, screen readers and the no-WebGL fallback. */
+  .hero.is-water .name { opacity: 0; }
   .hero__shade {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 22%);
@@ -182,7 +185,7 @@
 
   const RENDER = `#version 300 es
     precision highp float;
-    uniform sampler2D state; uniform sampler2D photo;
+    uniform sampler2D state; uniform sampler2D photo; uniform sampler2D mask;
     uniform vec2 texel; uniform vec2 coverScale; uniform vec2 coverPos;
     uniform float perturbance;
     in vec2 uv; out vec4 o;
@@ -195,8 +198,12 @@
       float spec = pow(max(0.0, dot(normalize(slope + 1e-6), normalize(vec2(-0.6, 1.0)))), 6.0)
                  * clamp(length(slope) * 40.0, 0.0, 1.0);
       vec2 img = uv * coverScale + (1.0 - coverScale) * coverPos;
-      vec4 c = texture(photo, img + offset * perturbance);
-      o = vec4(c.rgb + spec * 0.18, 1.0);
+      vec2 d = offset * perturbance;
+      vec3 c = texture(photo, img + d).rgb;
+      // Letters invert the photo; displaced by the same ripple as the photo
+      float m = texture(mask, uv + d / coverScale).a;
+      c = mix(c, 1.0 - c, m);
+      o = vec4(c + spec * 0.18, 1.0);
     }`;
 
   function program(fs) {
@@ -276,8 +283,49 @@
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     ready = true;
+    buildMask();
   };
   img.src = photoURL;
+
+  // Name mask: the DOM name drawn into a canvas at the same position
+  const name = hero.querySelector('.name');
+  const maskCanvas = document.createElement('canvas');
+  const mctx = maskCanvas.getContext('2d');
+  const maskTex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, maskTex);  // transparent until the font is ready
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+  async function buildMask() {
+    await document.fonts.ready;
+    if (!canvas.width) return;
+    const dpr = canvas.width / hero.clientWidth;
+    const hr = hero.getBoundingClientRect();
+    maskCanvas.width = canvas.width; maskCanvas.height = canvas.height;
+    mctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+    mctx.fillStyle = '#fff';
+    mctx.textBaseline = 'alphabetic';
+    for (const span of name.children) {
+      const cs = getComputedStyle(span);
+      const size = parseFloat(cs.fontSize);
+      mctx.font = `${cs.fontWeight} ${size * dpr}px ${cs.fontFamily}`;
+      if ('letterSpacing' in mctx) mctx.letterSpacing = `${parseFloat(cs.letterSpacing) * dpr}px`;
+      const text = span.textContent.trim();
+      const m = mctx.measureText(text);
+      const r = span.getBoundingClientRect();
+      // Baseline inside the line box: half-leading + ascent
+      const asc = m.fontBoundingBoxAscent, desc = m.fontBoundingBoxDescent;
+      const top = (r.top - hr.top) * dpr;
+      const baseline = top + (r.height * dpr - (asc + desc)) / 2 + asc;
+      mctx.fillText(text, (r.left - hr.left) * dpr, baseline);
+    }
+    gl.bindTexture(gl.TEXTURE_2D, maskTex);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, maskCanvas);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    hero.classList.add('is-water');
+  }
 
   function resize() {
     const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -286,6 +334,7 @@
     canvas.width = w;
     canvas.height = h;
     makeTargets();
+    if (ready) buildMask();
   }
   new ResizeObserver(resize).observe(hero);
   resize();
@@ -331,7 +380,9 @@
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, targets[0].tex);
     gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, photoTex);
     gl.uniform1i(r.u.state, 0);
+    gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, maskTex);
     gl.uniform1i(r.u.photo, 1);
+    gl.uniform1i(r.u.mask, 2);
     gl.uniform2f(r.u.texel, 1 / simW, 1 / simH);
     // Match CSS background-size: cover + background-position
     const ca = canvas.width / canvas.height;
