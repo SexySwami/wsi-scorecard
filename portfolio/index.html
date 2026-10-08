@@ -74,6 +74,90 @@
   .name__first { display: block; font-size: 8vw; }
   .name__last  { display: block; font-size: 16.5vw; margin-top: .02em; }
 
+  /* ---------- Works carousel ---------- */
+  .works {
+    position: relative; height: 100svh; min-height: 560px;
+    overflow: hidden; background: #1c1c1c; color: #fff;
+    user-select: none; touch-action: pan-y;
+  }
+  .works__bg { position: absolute; inset: 0; }
+  .works__bg-img {
+    position: absolute; inset: -4%;
+    background: center / cover no-repeat;
+    opacity: 0; transform: scale(1.04);
+    transition: opacity .9s ease, transform 1.6s cubic-bezier(.2,.7,.2,1);
+  }
+  .works__bg-img.is-on { opacity: .32; transform: scale(1); }
+  .works__strip { position: absolute; inset: 0; cursor: grab; }
+  .works__strip.is-dragging { cursor: grabbing; }
+  .tile {
+    position: absolute; left: 0; top: 0;
+    padding: 0; border: 0; background: #111; overflow: hidden;
+    cursor: pointer; will-change: transform, clip-path;
+  }
+  .tile img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .tile:hover img, .tile:focus-visible img { transform: scale(1.06); }
+  .tile:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .works__label, .works__caption {
+    position: absolute; z-index: 2; font-size: 13px; font-weight: 500; pointer-events: none;
+  }
+  .works__label { top: 28px; left: var(--gutter); text-transform: uppercase; letter-spacing: -.01em; }
+  .works__label span { opacity: .55; margin-left: 1.2em; }
+  .works__caption {
+    bottom: 28px; left: 0; right: 0; text-align: center;
+    display: flex; justify-content: center; gap: 1.6em;
+  }
+  .works__caption span:not(:first-child) { opacity: .55; }
+
+  /* ---------- Project view ---------- */
+  .project {
+    position: fixed; inset: 0; z-index: 50;
+    background: #000; color: #fff;
+    overflow-y: auto; overscroll-behavior: contain;
+    opacity: 0; visibility: hidden;
+    transition: opacity .35s ease, visibility 0s linear .35s;
+  }
+  .project.is-open { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+  .project__bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 3;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 18px 2.4vw; font-size: 14px; pointer-events: none;
+  }
+  .project__bar > * { pointer-events: auto; }
+  .project__brand { font-weight: 700; font-size: 18px; line-height: 1; letter-spacing: -.02em; }
+  .project__btn {
+    background: none; border: 0; color: inherit; font: inherit; cursor: pointer;
+    padding: 4px 0; text-shadow: 0 1px 8px rgba(0,0,0,.35);
+  }
+  .project__btn:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .project__meta {
+    position: fixed; left: 0; right: 0; top: 50%; z-index: 3;
+    transform: translateY(-50%);
+    display: grid; grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+    padding: 0 28px 0 12px; align-items: center; font-size: 13px; pointer-events: none;
+    text-shadow: 0 1px 8px rgba(0,0,0,.35);
+    opacity: 0; transition: opacity .4s ease;
+  }
+  .project__meta > * { pointer-events: auto; }
+  .project.is-ready .project__meta { opacity: 1; }
+  .project__meta .m-client { text-align: right; padding-right: 4vw; }
+  .project__meta .m-title { text-align: center; }
+  .project__meta .m-year { padding-left: 4vw; }
+  .project__meta .m-next { text-align: right; }
+  .project__meta .m-prev { text-align: left; }
+  .project__meta .project__btn { padding: 0; justify-self: stretch; }
+  .project__grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  }
+  .project__cell { aspect-ratio: 4 / 5; overflow: hidden; background: #0b0b0b; }
+  .project__cell img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    clip-path: inset(100% 0 0 0); transform: scale(1.12);
+    transition: clip-path .9s cubic-bezier(.7,0,.2,1), transform 1.3s cubic-bezier(.2,.7,.2,1);
+  }
+  .project.is-ready .project__cell img { clip-path: inset(0 0 0 0); transform: scale(1); }
+  .project__foot { padding: 28px 0 40px; text-align: center; font-size: 13px; opacity: .7; }
+
   /* ---------- About strip ---------- */
   .about { padding: 90px var(--gutter) 120px; }
   .about__row {
@@ -90,6 +174,10 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) {
+    .project__grid { grid-template-columns: repeat(2, 1fr); }
+    .project__meta { grid-template-columns: 1fr 2fr 1fr; }
+    .project__meta .m-client, .project__meta .m-year { display: none; }
+    .works__label span { display: none; }
     :root { --gutter: 4vw; }
     .hero { aspect-ratio: auto; height: 100svh; min-height: 560px; }
     .hero__img, .name { background-position: 62% 30%; }
@@ -122,6 +210,29 @@
   </h1>
 
 </header>
+
+<section class="works" id="works" aria-label="Selected work">
+  <div class="works__bg" aria-hidden="true"><div class="works__bg-img"></div><div class="works__bg-img"></div></div>
+  <p class="works__label">Selected work<span>Drag to explore</span></p>
+  <div class="works__strip"></div>
+  <p class="works__caption" aria-live="polite"><span class="c-title"></span><span class="c-client"></span><span class="c-year"></span></p>
+</section>
+
+<div class="project" role="dialog" aria-modal="true" aria-label="Project" aria-hidden="true">
+  <div class="project__bar">
+    <span class="project__brand">Kush Swami’s<br>Portfolio</span>
+    <button class="project__btn" data-act="close">Close</button>
+  </div>
+  <div class="project__meta">
+    <button class="project__btn m-prev" data-act="prev">Previous</button>
+    <span class="m-client"></span>
+    <span class="m-title"></span>
+    <span class="m-year"></span>
+    <button class="project__btn m-next" data-act="next">Next</button>
+  </div>
+  <div class="project__grid"></div>
+  <p class="project__foot">© 2026 Kush Swami</p>
+</div>
 
 <section class="about" id="about">
   <div class="about__row">
@@ -397,6 +508,249 @@
     gl.uniform1f(r.u.perturbance, PERTURBANCE);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+<script>
+/* Works carousel: an endless strip of project tiles that drifts, follows
+   drag / horizontal wheel / page scroll, and bulges toward the middle.
+   Clicking a tile opens the project view. Images are placeholders. */
+(() => {
+  const PROJECTS = [
+    { title: 'Riverline',     client: 'Northwind',     year: 2026, img: 1015 },
+    { title: 'Low Tide',      client: 'Atlas Coffee',  year: 2025, img: 1016 },
+    { title: 'Good Boy',      client: 'Barkhaus',      year: 2025, img: 1025 },
+    { title: 'Summit',        client: 'Alpine Co.',    year: 2025, img: 1035 },
+    { title: 'Falls',         client: 'Meridian',      year: 2024, img: 1039 },
+    { title: 'Afterglow',     client: 'Solstice',      year: 2024, img: 1043 },
+    { title: 'Coastline',     client: 'Harbor & Co.',  year: 2024, img: 1050 },
+    { title: 'Companion',     client: 'Field Notes',   year: 2023, img: 1062 },
+    { title: 'Drift',         client: 'Bluewater',     year: 2023, img: 1069 },
+    { title: 'King',          client: 'Savanna',       year: 2023, img: 1074 },
+    { title: 'Harvest',       client: 'Fresh Market',  year: 2022, img: 1080 },
+    { title: 'Arctic',        client: 'Polar Studio',  year: 2022, img: 1084 },
+  ].map(p => ({
+    ...p,
+    cover: `https://picsum.photos/id/${p.img}/900/1200`,
+    gallery: Array.from({ length: 6 }, (_, k) =>
+      k === 0 ? `https://picsum.photos/id/${p.img}/1000/1250`
+              : `https://picsum.photos/seed/${p.title.toLowerCase()}-${k}/1000/1250`),
+  }));
+
+  const section = document.querySelector('.works');
+  const strip = section.querySelector('.works__strip');
+  const bgs = [...section.querySelectorAll('.works__bg-img')];
+  const cap = {
+    title: section.querySelector('.c-title'),
+    client: section.querySelector('.c-client'),
+    year: section.querySelector('.c-year'),
+  };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Tiles (project list repeated until it overfills the screen) ----
+  let tiles = [];
+  function buildTiles() {
+    const { W, gap } = metrics();
+    const need = Math.ceil((section.clientWidth + 4 * (W + gap)) / (W + gap));
+    const reps = Math.max(1, Math.ceil(need / PROJECTS.length));
+    if (tiles.length === reps * PROJECTS.length) return;
+    strip.textContent = '';
+    tiles = [];
+    for (let r = 0; r < reps; r++) PROJECTS.forEach((p, i) => {
+      const el = document.createElement('button');
+      el.className = 'tile';
+      el.type = 'button';
+      el.dataset.index = i;
+      el.setAttribute('aria-label', `${p.title} — ${p.client}, ${p.year}`);
+      if (r > 0) el.tabIndex = -1;
+      const img = new Image();
+      img.src = p.cover; img.alt = ''; img.draggable = false; img.loading = 'lazy';
+      el.appendChild(img);
+      strip.appendChild(el);
+      tiles.push({ el, index: i });
+    });
+  }
+
+  function metrics() {
+    const vw = section.clientWidth, vh = section.clientHeight;
+    const W = Math.max(110, Math.min(vw * (vw < 700 ? 0.3 : 0.105), 200));
+    const gap = Math.max(4, W * 0.04);
+    const Hmax = Math.min(vh * 0.36, W * 1.45);
+    return { vw, vh, W, gap, Hmax, Hmin: Hmax * 0.5 };
+  }
+
+  // ---- Motion state ----
+  let offset = 0, velocity = 0, hover = -1, current = -1;
+  const AUTO = reduced ? 0 : 38; // px/s drift
+
+  // Drag
+  let drag = null;
+  strip.addEventListener('pointerdown', e => {
+    drag = { x: e.clientX, last: e.clientX, t: performance.now(), moved: 0, id: e.pointerId };
+    velocity = 0;
+  });
+  addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.last;
+    drag.moved += Math.abs(dx);
+    if (drag.moved > 6 && !strip.classList.contains('is-dragging')) {
+      strip.classList.add('is-dragging');
+      strip.setPointerCapture(e.pointerId);
+    }
+    const now = performance.now();
+    offset -= dx;
+    velocity = -dx / Math.max(1, now - drag.t) * 1000;
+    drag.last = e.clientX; drag.t = now;
+  });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const wasDrag = drag.moved > 6;
+    strip.classList.remove('is-dragging');
+    drag = null;
+    if (!wasDrag) {
+      const t = e.target.closest?.('.tile') || document.elementFromPoint(e.clientX, e.clientY)?.closest('.tile');
+      if (t) openProject(+t.dataset.index);
+    }
+  };
+  addEventListener('pointerup', endDrag);
+  addEventListener('pointercancel', endDrag);
+  strip.addEventListener('click', e => { if (e.detail === 0) { const t = e.target.closest('.tile'); t && openProject(+t.dataset.index); } }); // keyboard
+
+  // Horizontal wheel / trackpad swipe moves the strip; vertical scroll is left to the page
+  section.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); offset += e.deltaX; velocity = e.deltaX * 30; }
+  }, { passive: false });
+
+  // Page scroll nudges the strip while it's on screen
+  let lastScroll = scrollY;
+  addEventListener('scroll', () => {
+    const d = scrollY - lastScroll; lastScroll = scrollY;
+    const r = section.getBoundingClientRect();
+    if (r.bottom > 0 && r.top < innerHeight) velocity += d * 6;
+  }, { passive: true });
+
+  strip.addEventListener('pointerover', e => { const t = e.target.closest('.tile'); hover = t ? +t.dataset.index : -1; });
+  strip.addEventListener('pointerleave', () => { hover = -1; });
+  strip.addEventListener('focusin', e => { const t = e.target.closest('.tile'); if (t) hover = +t.dataset.index; });
+
+  // ---- Background crossfade ----
+  let bgTop = 0;
+  function setFeatured(i) {
+    if (i === current) return;
+    current = i;
+    const p = PROJECTS[i];
+    bgTop ^= 1;
+    bgs[bgTop].style.backgroundImage = `url("${p.cover}")`;
+    bgs[bgTop].classList.add('is-on');
+    bgs[bgTop ^ 1].classList.remove('is-on');
+    cap.title.textContent = p.title; cap.client.textContent = p.client; cap.year.textContent = p.year;
+  }
+
+  // ---- Layout loop ----
+  let visible = false, lastT = performance.now();
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(section);
+
+  function frame(t) {
+    requestAnimationFrame(frame);
+    const dt = Math.min(0.05, (t - lastT) / 1000); lastT = t;
+    if (!visible || projectOpen) return;
+
+    if (!drag) {
+      velocity *= Math.pow(0.04, dt);          // inertia decay
+      offset += (velocity + AUTO) * dt;
+    }
+    layout();
+  }
+
+  function layout() {
+    const { vw, vh, W, gap, Hmax, Hmin } = metrics();
+    const S = W + gap, L = tiles.length * S;
+    const cx = vw / 2, cy = vh / 2;
+    const bump = x => { const d = (x - cx) / (vw * 0.5); return Hmin + (Hmax - Hmin) * Math.exp(-2.4 * d * d); };
+    let nearest = -1, best = Infinity;
+    for (let k = 0; k < tiles.length; k++) {
+      const { el, index } = tiles[k];
+      let x = ((k * S - offset) % L + L) % L - 2 * S;
+      const hl = bump(x), hr = bump(x + W), hc = Math.max(hl, hr);
+      const top = cy - hc / 2;
+      el.style.width = W + 'px';
+      el.style.height = hc + 'px';
+      el.style.transform = `translate3d(${x}px, ${top}px, 0)`;
+      const a = (hc - hl) / 2, b = (hc - hr) / 2;
+      el.style.clipPath = `polygon(0 ${a}px, 100% ${b}px, 100% ${hc - b}px, 0 ${hc - a}px)`;
+      const dist = Math.abs(x + W / 2 - cx);
+      if (dist < best) { best = dist; nearest = index; }
+    }
+    setFeatured(hover >= 0 ? hover : nearest);
+  }
+
+  // ---- Project view ----
+  const view = document.querySelector('.project');
+  const grid = view.querySelector('.project__grid');
+  const meta = {
+    client: view.querySelector('.m-client'),
+    title: view.querySelector('.m-title'),
+    year: view.querySelector('.m-year'),
+  };
+  let projectOpen = false, openIndex = 0, lastFocus = null;
+
+  function fill(i) {
+    const p = PROJECTS[i];
+    openIndex = i;
+    meta.client.textContent = p.client; meta.title.textContent = p.title; meta.year.textContent = p.year;
+    view.setAttribute('aria-label', `${p.title} — ${p.client}`);
+    grid.textContent = '';
+    p.gallery.forEach((src, k) => {
+      const cell = document.createElement('div');
+      cell.className = 'project__cell';
+      const img = new Image();
+      img.src = src; img.alt = `${p.title} image ${k + 1}`;
+      img.style.transitionDelay = `${k * 70}ms, ${k * 70}ms`;
+      cell.appendChild(img);
+      grid.appendChild(cell);
+    });
+    view.scrollTop = 0;
+    requestAnimationFrame(() => requestAnimationFrame(() => view.classList.add('is-ready')));
+  }
+
+  function openProject(i) {
+    lastFocus = document.activeElement;
+    projectOpen = true;
+    document.documentElement.style.overflow = 'hidden';
+    view.classList.remove('is-ready');
+    view.classList.add('is-open');
+    view.setAttribute('aria-hidden', 'false');
+    setTimeout(() => { fill(i); view.querySelector('[data-act="close"]').focus({ preventScroll: true }); }, 350);
+  }
+  function closeProject() {
+    projectOpen = false;
+    view.classList.remove('is-open', 'is-ready');
+    view.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    lastT = performance.now();
+    lastFocus?.focus?.({ preventScroll: true });
+  }
+  function step(dir) {
+    view.classList.remove('is-ready');
+    setTimeout(() => fill((openIndex + dir + PROJECTS.length) % PROJECTS.length), 450);
+  }
+  view.addEventListener('click', e => {
+    const act = e.target.closest('[data-act]')?.dataset.act;
+    if (act === 'close') closeProject();
+    if (act === 'prev') step(-1);
+    if (act === 'next') step(1);
+  });
+  addEventListener('keydown', e => {
+    if (!projectOpen) return;
+    if (e.key === 'Escape') closeProject();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+
+  new ResizeObserver(() => { buildTiles(); layout(); }).observe(section);
+  buildTiles();
+  layout();
   requestAnimationFrame(frame);
 })();
 </script>
